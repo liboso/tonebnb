@@ -14,11 +14,11 @@ db_pwd = os.getenv('POSTGRES_PWD', 'sa')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_pwd}@{db_host}:{db_port}/tonebnb'
 
-#db.init_app(app)
+db.init_app(app)
 
-#app.register_blueprint(listing_api, url_prefix='/api/listings')
-#app.register_blueprint(heatmap_api, url_prefix='/api/heatmap')
-#app.register_blueprint(safety_info_api, url_prefix='/api/safetyinfo')
+app.register_blueprint(listing_api, url_prefix='/api/listings')
+app.register_blueprint(heatmap_api, url_prefix='/api/heatmap')
+app.register_blueprint(safety_info_api, url_prefix='/api/safetyinfo')
 
 
 @app.after_request
