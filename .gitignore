@@ -1,0 +1,9 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+eggs/
+.eggs/
+*.egg
+venv/
+logfile
+.idea
+.DS_Store
