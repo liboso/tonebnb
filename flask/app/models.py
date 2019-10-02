@@ -15,13 +15,6 @@ class HeatmapModel(db.Model):
     weight = db.Column(db.Integer, nullable=False)
     city = db.Column(db.String(), nullable=False)
 
-    def __init__(self, data, **kwargs):
-        super().__init__(**kwargs)
-        self.latitude = data.get('latitude')
-        self.longitude = data.get('longitude')
-        self.weight = data.get('weight')
-        self.city = data.get('city')
-
     @staticmethod
     def get_all_by_city(value):
         return HeatmapModel.query.filter_by(city=value).all()
@@ -38,14 +31,8 @@ class ListingModel(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     name = db.Column(db.String(), nullable=False)
+    score = db.Column('final_score', db.Float, nullable=False)
     city = db.Column(db.String(), nullable=False)
-
-    def __init__(self, data, **kwargs):
-        super().__init__(**kwargs)
-        self.latitude = data.get('latitude')
-        self.longitude = data.get('longitude')
-        self.weight = data.get('weight')
-        self.city = data.get('city')
 
     @staticmethod
     def get_all_by_city(value):
@@ -67,14 +54,6 @@ class SafetyInfoModel(db.Model):
     # https://stackoverflow.com/questions/4069595/flask-with-geoalchemy-sample-code
     geom = db.Column(Geometry(geometry_type='POINT', srid=4326))
 
-    def __init__(self, data, **kwargs):
-        super.__init__(**kwargs)
-        self.latitude = data.get('latitude')
-        self.longitude = data.get('longitude')
-        self.weight = data.get('weight')
-        self.date = data.get('date')
-        self.city = data.get('city')
-
     @staticmethod
     def get_all_by_location(latitude, longitude):
         pt = WKTElement('POINT({0} {1})'.format(longitude, latitude), srid=4326)
@@ -95,6 +74,7 @@ class ListingSchema(Schema):
     id = fields.Str(required=True)
     latitude = fields.Float(required=True)
     longitude = fields.Float(required=True)
+    score = fields.Float(required=True)
     name = fields.Str(required=True)
     city = fields.Str(required=True)
 

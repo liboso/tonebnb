@@ -44,13 +44,9 @@ function renderMarker(input) {
     let data = JSON.parse(input);
     for (i = 0; i < data.length; i++) {
         let listing = data[i];
-        let latitude = parseFloat(listing.latitude);
-        let longitude = parseFloat(listing.longitude);
-        let weight = parseFloat(listing.weight);
         let marker = new google.maps.Marker({
-            position: new google.maps.LatLng(latitude, longitude),
-            //scaledSize: new google.maps.Size(2, 3),
-            icon: getIcon(weight),
+            position: new google.maps.LatLng(listing.latitude, listing.longitude),
+            icon: getIcon(listing.score),
             map: map
         });
 
@@ -67,10 +63,8 @@ function parsePointAsJson(data) {
     let allPoints = JSON.parse(data);
     let points = [];
     for (let i=0; i<allPoints.length; i++) {
-        let latitude = parseFloat(allPoints[i].latitude);
-        let longitude = parseFloat(allPoints[i].longitude);
-        let weight = parseFloat(allPoints[i].weight);
-        points.push({location: new google.maps.LatLng(latitude, longitude), weight: weight});
+        let point = allPoints[i];
+        points.push({location: new google.maps.LatLng(point.latitude, point.longitude), weight: point.weight});
     }
     return points;
 }
