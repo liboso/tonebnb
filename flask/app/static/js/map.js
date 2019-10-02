@@ -63,20 +63,6 @@ function renderMarker(input) {
     }
 }
 
-function parsePointsAsCsv(data) {
-    var allTextLines = data.split(/\r\n|\n/);
-    let points = [];
-
-    for (var i=1; i<allTextLines.length; i++) {
-        var data = allTextLines[i].split(',');
-        var latitude = parseFloat(data[0]);
-        var longitude = parseFloat(data[1]);
-        var weight = parseFloat(data[2]);
-        points.push({location: new google.maps.LatLng(latitude, longitude), weight: weight});
-    }
-    return points;
-}
-
 function parsePointAsJson(data) {
     let allPoints = JSON.parse(data);
     let points = [];

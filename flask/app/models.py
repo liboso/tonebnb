@@ -8,9 +8,7 @@ db = SQLAlchemy()
 
 class HeatmapModel(db.Model):
     __tablename__ = 'heatmap'
-    __table_args__ = (
-        db.PrimaryKeyConstraint('latitude', 'longitude'),
-    )
+    __table_args__ = (db.PrimaryKeyConstraint('latitude', 'longitude'), {'schema': 'gc'})
 
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
@@ -34,6 +32,7 @@ class HeatmapModel(db.Model):
 
 class ListingModel(db.Model):
     __tablename__ = 'current_listings_sf'
+    __table_args__ = ({'schema': 'gc'})
 
     id = db.Column(db.String(), primary_key=True)
     latitude = db.Column(db.Float, nullable=False)
@@ -57,10 +56,11 @@ class ListingModel(db.Model):
 
 
 class SafetyInfoModel(db.Model):
-    __tablename__ = 'safety_info'
+    __tablename__ = 'safety_info_sf'
+    __table_args__ = ({'schema': 'gc'})
 
     id = db.Column(db.String(), primary_key=True)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column('occur_date', db.DateTime, nullable=False)
     description = db.Column(nullable=True)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
@@ -72,12 +72,13 @@ class SafetyInfoModel(db.Model):
         self.latitude = data.get('latitude')
         self.longitude = data.get('longitude')
         self.weight = data.get('weight')
+        self.date = data.get('date')
         self.city = data.get('city')
 
     @staticmethod
     def get_all_by_location(latitude, longitude):
         pt = WKTElement('POINT({0} {1})'.format(longitude, latitude), srid=4326)
-        return ListingModel.query.order_by(SafetyInfoModel.geom.distance_box(pt)).limit(100).all()
+        return SafetyInfoModel.query.order_by(SafetyInfoModel.geom.distance_box(pt)).limit(100).all()
 
     def __repr(self):
         return f'Listing: {self.id}, {self.name}, {self.latitude}, {self.longitude}, {self.city}'
