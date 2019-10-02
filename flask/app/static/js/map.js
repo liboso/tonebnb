@@ -18,10 +18,6 @@ function initMap() {
     });
 }
 
-function toggleHeatmap() {
-    heatmap.setMap(heatmap.getMap() ? null : map);
-}
-
 function getIcon(weight) {
     if (weight == undefined) {
         return null;
@@ -54,23 +50,30 @@ function renderMarker(input) {
             return function() {
               infoWindow.setContent(listing.name);
               infoWindow.open(map, marker);
+              renderSafetyInfo(marker.position.lat(), marker.position.lng())
             }
         })(marker, i));
     }
 }
 
-function parsePointAsJson(data) {
-    let allPoints = JSON.parse(data);
+function renderSafetyInfo(latitude, longitude) {
+    $.get("/api/safetyinfo", {latitude: latitude, longitude: longitude}).done((data) => {
+        data.forEach((item, index) => {
+            let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(item.latitude, item.longitude),
+                map: map
+            });
+        });
+    });
+}
+
+function renderHeatMap(allText) {
+    let allPoints = JSON.parse(allText);
     let points = [];
     for (let i=0; i<allPoints.length; i++) {
         let point = allPoints[i];
         points.push({location: new google.maps.LatLng(point.latitude, point.longitude), weight: point.weight});
     }
-    return points;
-}
-
-function renderHeatMap(allText) {
-    let points = parsePointAsJson(allText);
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
@@ -79,7 +82,6 @@ function renderHeatMap(allText) {
     });
 
     heatmap = new google.maps.visualization.HeatmapLayer({
-        //dissipating: false,
         data: points,
         map: map
     });
@@ -104,15 +106,3 @@ var GRADIENT = [
     'rgba(191, 0, 31, 1)',
     'rgba(255, 0, 0, 1)'
 ];
-
-function changeGradient() {
-    heatmap.set('gradient', heatmap.get('gradient') ? null : GRADIENT);
-}
-
-function changeRadius() {
-    heatmap.set('radius', heatmap.get('radius') ? null : 25);
-}
-
-function changeOpacity() {
-    heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-}
