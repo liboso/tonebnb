@@ -1,20 +1,19 @@
-var map, heatmap, infoWindow;
+let map, heatmap, infoWindow, safetyMarkers, safetyInfoWindow;
+
+function resetMarkers(markers) {
+    if (markers !== undefined && Array.isArray(markers)) {
+        markers.forEach(marker => marker.setMap(null))
+    }
+}
 
 function initMap() {
-    $.ajax({
-        type: "GET",
-        url: "/api/heatmap/sf",
-        dataType: "text"
-    }).then((data) => {
+    $.get("/api/heatmap/sf").then(data => {
         infoWindow = new google.maps.InfoWindow();
+        safetyInfoWindow = new google.maps.InfoWindow();
         renderHeatMap(data);
-        return $.ajax({
-            type: "GET",
-            url: "/api/listings/sf",
-            dataType: "text"
-        });
-    }).then((data) => {
-        renderMarker(data);
+        return $.get("/api/listings/sf");
+    }).then(data => {
+        renderAirbnbMarkers(data);
     });
 }
 
@@ -36,8 +35,7 @@ function getIcon(weight) {
     }
 }
 
-function renderMarker(input) {
-    let data = JSON.parse(input);
+function renderAirbnbMarkers(data) {
     for (i = 0; i < data.length; i++) {
         let listing = data[i];
         let marker = new google.maps.Marker({
@@ -50,30 +48,43 @@ function renderMarker(input) {
             return function() {
               infoWindow.setContent(listing.name);
               infoWindow.open(map, marker);
-              renderSafetyInfo(marker.position.lat(), marker.position.lng())
+              renderSafetyMarkers(marker.position.lat(), marker.position.lng())
             }
         })(marker, i));
     }
 }
 
-function renderSafetyInfo(latitude, longitude) {
+function renderSafetyMarkers(latitude, longitude) {
+    resetMarkers(safetyMarkers);
+
     $.get("/api/safetyinfo", {latitude: latitude, longitude: longitude}).done((data) => {
-        data.forEach((item, index) => {
+        safetyMarkers = data.map(item => {
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(item.latitude, item.longitude),
                 map: map
+            });
+            marker.addListener('mouseover', function() {
+                let content = `
+                    <div>
+                        <p><b>Incident Report</b></p>
+                        <div><b>Occur Date: </b>${item.date}</div>
+                        <div><b>Description: </b>${item.description}</div>
+                    </div>
+                `;
+                safetyInfoWindow.setContent(content)
+                safetyInfoWindow.open(map, this);
+            });
+            marker.addListener('mouseout', function() {
+                safetyInfoWindow.close();
             });
         });
     });
 }
 
-function renderHeatMap(allText) {
-    let allPoints = JSON.parse(allText);
-    let points = [];
-    for (let i=0; i<allPoints.length; i++) {
-        let point = allPoints[i];
-        points.push({location: new google.maps.LatLng(point.latitude, point.longitude), weight: point.weight});
-    }
+function renderHeatMap(data) {
+    let points = data.map(point => {
+        return { location: new google.maps.LatLng(point.latitude, point.longitude), weight: point.weight };
+    });
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,

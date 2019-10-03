@@ -47,7 +47,7 @@ class SafetyInfoModel(db.Model):
     __table_args__ = ({'schema': 'gc'})
 
     id = db.Column(db.String(), primary_key=True)
-    date = db.Column('occur_date', db.DateTime, nullable=False)
+    date = db.Column('occur_date', db.Date, nullable=False)
     description = db.Column(nullable=True)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
@@ -81,7 +81,7 @@ class ListingSchema(Schema):
 
 class SafetyInfoSchema(Schema):
     id = fields.Str(required=True, primary_key=True)
-    date = fields.DateTime(required=True)
+    date = fields.Date(required=True)
     description = fields.Str()
     city = fields.Str()
     latitude = fields.Float(required=True)
