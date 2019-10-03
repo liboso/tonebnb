@@ -1,5 +1,6 @@
 import sys
 from util import create_spark_session
+from pyspark.sql import functions as Func
 
 
 def clean_listings(city):

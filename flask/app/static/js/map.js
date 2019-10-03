@@ -35,6 +35,14 @@ function getIcon(weight) {
     }
 }
 
+function getInfoIcon(type) {
+    if (type == 1) {
+        return "/static/image/info_1.jpg";
+    } else  {
+        return "/static/image/info_2.jpg";
+    }
+}
+
 function renderAirbnbMarkers(data) {
     for (i = 0; i < data.length; i++) {
         let listing = data[i];
@@ -56,11 +64,12 @@ function renderAirbnbMarkers(data) {
 
 function renderSafetyMarkers(latitude, longitude) {
     resetMarkers(safetyMarkers);
-
+    safetyMarkers = [];
     $.get("/api/safetyinfo", {latitude: latitude, longitude: longitude}).done((data) => {
         safetyMarkers = data.map(item => {
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(item.latitude, item.longitude),
+                icon: "/static/image/info_3.jpg",
                 map: map
             });
             marker.addListener('mouseover', function() {
@@ -77,6 +86,7 @@ function renderSafetyMarkers(latitude, longitude) {
             marker.addListener('mouseout', function() {
                 safetyInfoWindow.close();
             });
+            return marker;
         });
     });
 }

@@ -82,7 +82,7 @@ def process_computation(city):
     review_df.createOrReplaceTempView("listing_score")
 
     main_df = spark.sql('select  listing_score.*, \
-                        (avgRating + review_num_score) * (1 + avgTone) as final_score \
+                        (avgRating + review_num_score) * (1 + 0.5 * avgTone) as final_score \
                         FROM listing_score')
     main_df.createOrReplaceTempView("listing_score")
 

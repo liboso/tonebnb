@@ -1,6 +1,6 @@
 import os
 import platform
-
+import geohash
 from pyspark.sql import SparkSession
 from pyspark.sql import DataFrameWriter
 
@@ -18,6 +18,13 @@ def write_to_postgres(df, table, mode):
         'password': POSTGRES_PWD,
         'driver': 'org.postgresql.Driver'
     })
+
+
+def _geo_encode(x, y, precision):
+    try:
+        return geohash.encode(float(x), float(y), precision)
+    except:
+        return ""
 
 
 def create_spark_session(app=None, mem=None):

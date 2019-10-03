@@ -1,15 +1,8 @@
 import os
 import geohash
 from util import create_spark_session
-from util import write_to_postgres
+from util import write_to_postgres, _geo_encode
 from schema import INCIDENTS_SCHEMA_2003_SF, INCIDENTS_SCHEMA_SF, COMPLAIN_SCHEMA_SF
-
-
-def _geo_encode(x, y, precision):
-    try:
-        return geohash.encode(float(x), float(y), precision)
-    except:
-        return ""
 
 
 def process():
