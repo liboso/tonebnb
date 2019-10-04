@@ -3,7 +3,7 @@ from util import create_spark_session
 from pyspark.sql import functions as Func
 
 
-def clean_listings(city):
+def clean_listings(spark, city):
     """
     This function reads all the *.csv listing files of a specific city from S3 and save back to S3 in parquet format.
     :type city: A specific U.S. or Canada city which has airbnb data in http://insideairbnb.com/
@@ -45,7 +45,7 @@ def clean_listings(city):
     spark.sql(sql).coalesce(1).write.parquet(target)
 
 
-def clean_listing_details(city):
+def clean_listing_details(spark, city):
     """
     This function reads all the listing detail files of a specific city from S3 and save back to S3 in parquet format.
     listing detail has a lot of detail info regarding every listing, we take 'listing_url' and 'review_scores_rating'
@@ -80,7 +80,7 @@ def clean_listing_details(city):
     spark.sql(sql).coalesce(1).write.parquet(target)
 
 
-def clean_reviews(city):
+def clean_reviews(spark, city):
     """
     This function reads all the listing reviews data of a specific city from S3 and save back to S3 in parquet format.
     :type city: A specific U.S. or Canada city which has airbnb data in http://insideairbnb.com/

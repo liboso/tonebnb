@@ -57,7 +57,7 @@ class SafetyInfoModel(db.Model):
     @staticmethod
     def get_all_by_location(latitude, longitude):
         pt = WKTElement('POINT({0} {1})'.format(longitude, latitude), srid=4326)
-        return SafetyInfoModel.query.order_by(SafetyInfoModel.geom.distance_box(pt)).limit(20).all()
+        return SafetyInfoModel.query.order_by(SafetyInfoModel.geom.distance_box(pt)).limit(60).all()
 
     def __repr(self):
         return f'Listing: {self.id}, {self.name}, {self.latitude}, {self.longitude}, {self.city}'

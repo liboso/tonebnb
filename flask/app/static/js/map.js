@@ -19,7 +19,7 @@ function initMap() {
 
 function getIcon(weight) {
     if (weight == undefined) {
-        return null;
+        return "/static/image/airbnb1.jpg";
     } else if (weight >= 0 && weight < 2) {
         return "/static/image/airbnb1.jpg";
     } else if (weight >= 2 && weight < 4) {
@@ -31,7 +31,7 @@ function getIcon(weight) {
     } else if (weight >= 8 && weight < 10) {
         return "/static/image/airbnb5.jpg";
     } else {
-        return null;
+        return "/static/image/airbnb1.jpg";
     }
 }
 
