@@ -9,11 +9,6 @@ PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo "Project Directory: $PROJECT_DIR"
 
 # Environment variables for spark application
-export POSTGRES_HOST='10.0.0.5 '
-export POSTGRES_DB='tonebnb'
-export POSTGRES_PORT='5432'
-export POSTGRES_USER='sa'
-export POSTGRES_PWD='sa'
 export PYSPARK_PYTHON=/usr/bin/python3
 
 

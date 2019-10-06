@@ -7,8 +7,8 @@ from pyspark.sql import DataFrameWriter
 POSTGRES_HOST = os.getenv('POSTGRES_HOST', '10.0.0.5')
 POSTGRES_DB = os.getenv('POSTGRES_DB', 'tonebnb')
 POSTGRES_PORT = os.getenv('POSTGRES_PORT', '5432')
-POSTGRES_USER = os.getenv('POSTGRES_USER', 'sa')
-POSTGRES_PWD = os.getenv('POSTGRES_PWD', 'sa')
+POSTGRES_USER = os.getenv('POSTGRES_USER')
+POSTGRES_PWD = os.getenv('POSTGRES_PWD')
 POSTGRES_URL = f'jdbc:postgresql://{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
 
 

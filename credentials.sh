@@ -1,0 +1,5 @@
+export POSTGRES_HOST='10.0.0.5 '
+export POSTGRES_DB='tonebnb'
+export POSTGRES_PORT='5432'
+export POSTGRES_USER='sa'
+export POSTGRES_PWD='sa'
