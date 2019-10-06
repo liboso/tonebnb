@@ -11,3 +11,5 @@ vaderSentiment==3.2.1
 python-geohash==0.8.5
 psycopg2-binary==2.8.3
 GeoAlchemy2==0.6.3
+boto3==1.9.243
+gunicorn==19.9.0

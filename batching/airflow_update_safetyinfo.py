@@ -48,9 +48,9 @@ def process():
             df.createOrReplaceTempView("incidents")
 
             sql = "SELECT DISTINCT " + id_column_name + " as ID, " + occur_date_column_name + " as occur_date, "\
-                             + description_column_name + " as description, " + city_name + " as city," + info_type + " as type, "\
-                             + latitude_column_name + " as latitude, " + longitude_column_name + " as longitude"
-            df_incident = spark.sql(sql)
+                  + description_column_name + " as description, " + city_name + " as city," + info_type + " as type, "\
+                  + latitude_column_name + " as latitude, " + longitude_column_name + " as longitude"
+            df = spark.sql(sql)
             df = df.withColumn('ID', df.ID.cast('INT'))
             df = df.withColumn('occur_date', Func.to_date(df.occur_date))
             df = df.withColumn('latitude', df.latitude.cast('FLOAT'))
@@ -66,7 +66,7 @@ def process():
 def is_json_file_exists():
     s3 = boto3.resource('s3')
     s3_bucket = 'data-harbor'
-    s3_folder = 'safetyinfo/airflow/'
+    s3_folder = '/safetyinfo/airflow/'
     s3_filename = 'airflow_file_info.json'
     try:
         s3.Object(s3_bucket + s3_folder + s3_filename).load()

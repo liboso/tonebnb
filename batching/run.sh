@@ -16,9 +16,6 @@ export POSTGRES_USER='sa'
 export POSTGRES_PWD='sa'
 export PYSPARK_PYTHON=/usr/bin/python3
 
-# Configure AWS access key here if to access the S3 files.
-# export AWS_ACCESS_KEY_ID=<aws access key>
-# export AWS_SECRET_ACCESS_KEY=<aws secret key>
 
 SPARK_MASTER=spark://10.0.0.5:7077
 SPAKR_SUBMIT=/usr/local/spark/bin/spark-submit
