@@ -1,4 +1,4 @@
-# Tonebnb
+# ToneBnB
 This is a project I completed during the Insight Data Engineering program (Silicon Valley, Fall 2019). 
 Visit dataharbor.club to see it in action.
 
