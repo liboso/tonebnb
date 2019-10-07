@@ -7,6 +7,12 @@ db = SQLAlchemy()
 
 
 class HeatmapModel(db.Model):
+    """
+    It defines how a heat map object in python is mapped to the table in database. i.e.
+    1. What is the table?
+    2. What's the table schema like primary key, which schema is the table belonging to etc.
+    3. What's the column type etc.
+    """
     __tablename__ = 'heatmap'
     __table_args__ = (db.PrimaryKeyConstraint('latitude', 'longitude'), {'schema': 'gc'})
 
@@ -64,6 +70,9 @@ class SafetyInfoModel(db.Model):
 
 
 class HeatmapSchema(Schema):
+    """
+    A schema object is used to serialize Heatmap objects in python into json string.
+    """
     latitude = fields.Float(dump_only=True, required=True)
     longitude = fields.Float(required=True)
     weight = fields.Int(dump_only=True)

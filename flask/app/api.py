@@ -8,6 +8,9 @@ safety_info_api = Blueprint('safetyinfo', __name__)
 
 @heatmap_api.route('/<city>', methods=['GET'])
 def get_heat_points(city):
+    """
+    A rest api that query database and return heat map points in json.
+    """
     locations = HeatmapModel.get_all_by_city(city)
     ser_locations = HeatmapSchema().dump(locations, many=True).data
     return custom_response(ser_locations, 200)
