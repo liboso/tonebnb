@@ -1,15 +1,16 @@
-# ToneBnB
+# ToneBnb
 This is a project I completed during the Insight Data Engineering program (Silicon Valley, Fall 2019). 
 Visit dataharbor.club to see it in action.
 
-This project aims at providing the historic safety related information of locations and adjusted rating scores of 
-airbnb listings to travellers，so they can make fast, informed booking.
+This projet built a data pipeline ingesting  history incidents/complain information and 
+airbnb listing & review data, visualized the resuls through flask on Google map, so the 
+ user can book informed.
 
 The background is a heatmap generated from aggregated data of a specific city's public incidents and complains 
 datasets. It presents the safety related information of a location. In this project, it's called "The Tone of a 
-Location". The Airbnb listings' color is based on the adjusted review score. The brighter the color is, the higher 
-the score; It's called "The Tone of a House". When a listing is clicked, all incidents happened around within a 
-specific time window and scope will display.
+Location". The Airbnb listings' color is based on the adjusted rating & review score. The brighter the color is, 
+the higher the score; It's called "The Tone of a House". When a listing is clicked, all incidents happened around 
+within a specific time window and scope will display.
 ![Image description](docs/overall.png)
 ![Image description](docs/happened_arround.png)
 
@@ -47,9 +48,9 @@ Vancouver, Washington DC...
 
 
 ## Cluster Structure:
-To reproduce my environment, 6 m4.large AWS EC2 instances are needed:
+To reproduce my environment, 4 m4.large AWS EC2 instances are needed:
 
-(6 nodes) Spark Cluster - Batch
+(4ß nodes) Spark Cluster - Batch
 
 PostgreSQL sits in Mater's node
 
