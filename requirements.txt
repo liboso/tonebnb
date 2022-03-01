@@ -4,7 +4,7 @@ Flask-SQLAlchemy==2.4.0
 flask-marshmallow==0.10.1
 marshmallow-sqlalchemy==0.19.0
 marshmallow==2.18.0
-apache-airflow==1.10.5
+apache-airflow==2.2.4
 pyspark==2.4.4
 requests==2.22.0
 vaderSentiment==3.2.1
